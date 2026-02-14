@@ -60,7 +60,7 @@
       color: var(--dark-red);
     }
 
-    /* MAP IMAGE STYLING */
+    /* MAP IMAGE */
     .map-image {
       width: 100%;
       max-width: 360px;
@@ -68,6 +68,15 @@
       box-shadow: 0 10px 24px rgba(176, 33, 53, 0.35);
       display: block;
       margin: 0 auto 22px;
+    }
+
+    /* RESPONSE TEXT */
+    #response {
+      margin-top: 18px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--dark-red);
+      min-height: 28px;
     }
 
     .buttons {
@@ -114,7 +123,7 @@
       background: #ccc;
     }
 
-    /* Floating hearts animation */
+    /* Floating hearts */
     .heart-float {
       position: absolute;
       color: var(--red);
@@ -142,15 +151,21 @@
       <p>From Oregon to Tennessee, this heart’s been on a journey to you.</p>
     </div>
 
-    <!-- YOUR MAP IMAGE -->
+    <!-- MAP IMAGE -->
     <img src="map.png" class="map-image" alt="Valentine Map">
 
+    <!-- RESPONSE TEXT -->
+    <div id="response"></div>
+
     <div class="buttons">
-      <button class="yes" onclick="spawnHeart()">Yes ❤️</button>
-      <button class="maybe" onclick="spawnHeart()">Maybe 💕</button>
-      <button class="no" onclick="spawnHeart()">No 😢</button>
+      <button class="yes" onclick="respond('yes')">Yes ❤️</button>
+      <button class="maybe" onclick="respond('maybe')">Maybe 💕</button>
+      <button class="no" onclick="respond('no')">No 😢</button>
     </div>
   </div>
+
+  <!-- CONFETTI LIBRARY -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     function spawnHeart() {
@@ -161,9 +176,29 @@
       heart.style.top = "0px";
       document.body.appendChild(heart);
 
-      setTimeout(() => {
-        heart.remove();
-      }, 1400);
+      setTimeout(() => heart.remove(), 1400);
+    }
+
+    function respond(choice) {
+      const box = document.getElementById("response");
+
+      if (choice === "yes") {
+        box.textContent = "You just made my whole year ❤️";
+
+        // CONFETTI EXPLOSION
+        confetti({
+          particleCount: 180,
+          spread: 90,
+          origin: { y: 0.6 }
+        });
+
+      } else if (choice === "maybe") {
+        box.textContent = "I’ll wait as long as it takes 💕";
+      } else {
+        box.textContent = "My heart… shattered 😭";
+      }
+
+      spawnHeart();
     }
   </script>
 </body>
